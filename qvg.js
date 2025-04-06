@@ -82,10 +82,6 @@ async function fetchAveragePrice() {
                 if (err2) {
                   console.error("Error al insertar en misc:", err2);
                 } else {
-                  fetch('https://ntfy.sh/bineta_p2p', {
-                    method: 'POST',
-                    body: '😀 Nuevo Maximo: ' + average.toFixed(2)
-                  })
                   console.log("Fila 'max_value_avg' insertada en misc.");
                 }
                 connection.end();
@@ -100,6 +96,10 @@ async function fetchAveragePrice() {
                   if (err2) {
                     console.error("Error al actualizar misc:", err2);
                   } else {
+                    fetch('https://ntfy.sh/bineta_p2p', {
+                      method: 'POST',
+                      body: '😀 Nuevo Maximo: ' + average.toFixed(2)
+                    });
                     console.log("misc actualizada con el nuevo max_value_avg.");
                   }
                   connection.end();
