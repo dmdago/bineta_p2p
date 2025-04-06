@@ -5,8 +5,8 @@ async function fetchAveragePrice() {
   // Crear conexión a MySQL para esta iteración
   const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'bineta',
-    password: 'Bineta2025!',
+    user: 'sammy',
+    password: 'password',
     database: 'bineta_p2p'
   });
 
