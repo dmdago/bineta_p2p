@@ -90,7 +90,7 @@ async function fetchAveragePrice() {
               // Convertir el valor obtenido (VARCHAR) a número
               const currentMax = parseFloat(rows[0].value);
               // Si la conversión falla o el promedio es mayor, actualizamos
-              if (isNaN(currentMax) || average > currentMax) {
+              if (isNaN(currentMax) || average.toFixed(2) > currentMax.toFixed(2)) {
                 const updateMiscQuery = "UPDATE misc SET value = ? WHERE name = 'max_value_avg'";
                 connection.query(updateMiscQuery, [average.toFixed(2)], (err2, res2) => {
                   if (err2) {
