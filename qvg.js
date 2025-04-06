@@ -102,7 +102,7 @@ async function fetchAveragePrice() {
                     console.log("Nuevo: " + average.toFixed(2));
                     fetch('https://ntfy.sh/bineta_p2p', {
                       method: 'POST',
-                      body: '😀 Nuevo Maximo: ' + average.toFixed(2)
+                      body: 'Maximo: ' + average.toFixed(2)
                     });
                     console.log("misc actualizada con el nuevo max_value_avg.");
                   }
