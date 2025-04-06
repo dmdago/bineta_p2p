@@ -97,6 +97,7 @@ async function fetchAveragePrice() {
                     console.error("Error al actualizar misc:", err2);
                   } else {
                     console.log("Validacion: " + average > currentMax);
+                    console.log("Validacionw: " + isNaN(currentMax));
                     console.log("Actual: " + currentMax);
                     console.log("Nuevo: " + average.toFixed(2));
                     fetch('https://ntfy.sh/bineta_p2p', {
