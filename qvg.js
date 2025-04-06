@@ -52,6 +52,7 @@ async function fetchAveragePrice() {
       
       if (count === 0) {
         console.log("No se encontraron ofertas.");
+        connection.end();
       } else {
         const average = total / count;
         console.log(`Precio promedio de venta de USDT (ARS) con Bank Transfer: ${average.toFixed(2)}`);
@@ -60,12 +61,50 @@ async function fetchAveragePrice() {
         const insertQuery = "INSERT INTO history (dDate, fAverage) VALUES (CONVERT_TZ(NOW(), 'SYSTEM', '-03:00'), ?)";
         connection.query(insertQuery, [average.toFixed(2)], (error, results) => {
           if (error) {
-            console.error('Error al insertar en MySQL:', error);
+            console.error('Error al insertar en MySQL (history):', error);
           } else {
-            console.log('Datos insertados correctamente:', results);
+            console.log('Datos insertados correctamente en history:', results);
           }
-          // Cerrar la conexión una vez completada la consulta
-          connection.end();
+          
+          // Verificar el valor actual de max_value_avg en la tabla misc
+          const selectMiscQuery = "SELECT value FROM misc WHERE name = 'max_value_avg'";
+          connection.query(selectMiscQuery, (err, rows) => {
+            if (err) {
+              console.error("Error al obtener max_value_avg de misc:", err);
+              connection.end();
+              return;
+            }
+            
+            if (rows.length === 0) {
+              // Si no existe la fila, la insertamos
+              const insertMiscQuery = "INSERT INTO misc (name, value) VALUES ('max_value_avg', ?)";
+              connection.query(insertMiscQuery, [average.toFixed(2)], (err2, res2) => {
+                if (err2) {
+                  console.error("Error al insertar en misc:", err2);
+                } else {
+                  console.log("Fila 'max_value_avg' insertada en misc.");
+                }
+                connection.end();
+              });
+            } else {
+              const currentMax = parseFloat(rows[0].value);
+              if (average > currentMax) {
+                // Actualizar misc si el promedio es mayor que el valor actual
+                const updateMiscQuery = "UPDATE misc SET value = ? WHERE name = 'max_value_avg'";
+                connection.query(updateMiscQuery, [average.toFixed(2)], (err2, res2) => {
+                  if (err2) {
+                    console.error("Error al actualizar misc:", err2);
+                  } else {
+                    console.log("misc actualizada con el nuevo max_value_avg.");
+                  }
+                  connection.end();
+                });
+              } else {
+                console.log("El promedio actual no supera el max_value_avg almacenado.");
+                connection.end();
+              }
+            }
+          });
         });
       }
     } else {
