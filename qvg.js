@@ -57,7 +57,7 @@ async function fetchAveragePrice() {
         console.log(`Precio promedio de venta de USDT (ARS) con Bank Transfer: ${average.toFixed(2)}`);
 
         // Insertar fecha actual y promedio en la tabla 'history'
-        const insertQuery = 'INSERT INTO history (dDate, fAverage) VALUES (NOW(), ?)';
+        const insertQuery = "INSERT INTO history (dDate, fAverage) VALUES (CONVERT_TZ(NOW(), 'SYSTEM', '-03:00'), ?)";
         connection.query(insertQuery, [average.toFixed(2)], (error, results) => {
           if (error) {
             console.error('Error al insertar en MySQL:', error);
