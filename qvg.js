@@ -128,4 +128,4 @@ async function fetchAveragePrice() {
 
 // Ejecutar la función inmediatamente y luego cada 60 segundos (60000 milisegundos)
 fetchAveragePrice();
-setInterval(fetchAveragePrice, 10000);
+setInterval(fetchAveragePrice, 60000);
