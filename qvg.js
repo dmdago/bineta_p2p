@@ -1,5 +1,5 @@
 const axios = require('axios');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 async function fetchAveragePrice() {
   // Crear conexión a MySQL para esta iteración
