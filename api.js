@@ -8,11 +8,11 @@ const port = process.env.PORT || 3000;
 // Crear un pool de conexiones para gestionar múltiples solicitudes
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: 'localhost',
+  host: '64.226.100.88', // IP del servidor MySQL
   user: 'bineta',
   password: 'Bineta2025!',
   database: 'bineta_p2p',
-  timezone: '-03:00' // Esto ayuda a que las fechas se manejen según la zona horaria de Argentina
+  timezone: '-03:00' // Asegura que se manejen las fechas en horario de Argentina
 });
 
 // Endpoint para obtener el historial con los campos solicitados
@@ -45,7 +45,7 @@ app.get('/history', (req, res) => {
   });
 });
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}`);
+// Iniciar el servidor para que escuche en la IP 64.226.100.88
+app.listen(port, '64.226.100.88', () => {
+  console.log(`Servidor escuchando en http://64.226.100.88:${port}`);
 });
